@@ -6,25 +6,23 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
     Form,
-    FormControl,
-    FormDescription,
     FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
     useFormField,
 } from "@/components/ui/form"
 import Link from "next/link"
 import { Eye } from "lucide-react"
 import { Input } from "@nextui-org/react"
 import { useState } from "react"
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation"
+import { toast } from "../ui/use-toast"
 
 const passwordValidation = new RegExp(
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 );
 
 const formSchema = z.object({
-    email: z.string().email({ message: "You must enter a valid email." }),
+    email: z.string().min(1, "Please enter your email.").email("You must enter a valid email."),
     password: z.string()
         .min(1, "Please enter a password.")
         .min(8, "Must have min. 8 characters")
@@ -37,8 +35,10 @@ const formSchema = z.object({
 })
 
 const RegisterForm = () => {
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [passwordInputType, setPasswordInputType] = useState<string>("password");
+
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -51,8 +51,19 @@ const RegisterForm = () => {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        setIsLoading(true);
+        try {
+            await axios.post("/api/user", values);
+            router.push("/login")
+            toast({
+                title: "Notification",
+                description: "Account created ! You can now login.",
+            })
+        } catch (e) {
+            setIsLoading(false);
+            const error = e as AxiosError;
+        }
     }
 
     const showPassword = () => {

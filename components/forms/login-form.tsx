@@ -6,12 +6,7 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
     Form,
-    FormControl,
-    FormDescription,
     FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
     useFormField,
 } from "@/components/ui/form"
 import Link from "next/link"
@@ -31,9 +26,6 @@ const formSchema = z.object({
         .regex(passwordValidation, {
             message: 'Your password is not valid',
         }),
-    firstname: z.string().min(1, "Please enter your first name."),
-    lastname: z.string().min(1, "Please enter your last name."),
-    username: z.string().min(1, "Please enter an username").max(15, "Your username must have max. 15 characters")
 })
 
 const LoginForm = () => {

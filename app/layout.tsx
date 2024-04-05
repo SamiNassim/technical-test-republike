@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import "./globals.css";
 import Image from "next/image";
 import { UIProvider } from "@/providers/nextui-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 // const inter = Inter({ subsets: ["latin"] });
 const myFont = localFont({
@@ -35,6 +36,7 @@ export default function RootLayout({
           <div className="flex w-1/2 justify-center items-center bg-[#FFFFFF]">
             <UIProvider>
               {children}
+              <Toaster />
             </UIProvider>
           </div>
         </main>
