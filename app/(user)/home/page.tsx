@@ -8,7 +8,7 @@ const HomePage = async () => {
     console.log(session);
 
     return (
-        <div>User connected</div>
+        <div></div>
     )
 }
 
