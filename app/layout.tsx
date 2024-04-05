@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from 'next/font/local'
 import "./globals.css";
 import Image from "next/image";
+import { UIProvider } from "@/providers/nextui-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+const myFont = localFont({
+  src: 'TTFirsNeue.ttf',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Republike",
@@ -17,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
+      <body className={myFont.className}>
         <main className="flex flex-row w-full min-h-screen">
           <div className="flex w-1/2 justify-center items-center bg-[#7B61FF]">
             <Image
@@ -28,7 +33,9 @@ export default function RootLayout({
             />
           </div>
           <div className="flex w-1/2 justify-center items-center bg-[#FFFFFF]">
-            {children}
+            <UIProvider>
+              {children}
+            </UIProvider>
           </div>
         </main>
       </body>
