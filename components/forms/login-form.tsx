@@ -13,6 +13,9 @@ import Link from "next/link"
 import { Eye } from "lucide-react"
 import { Input } from "@nextui-org/react"
 import { useState } from "react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { toast } from "../ui/use-toast"
 
 const passwordValidation = new RegExp(
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
@@ -29,8 +32,9 @@ const formSchema = z.object({
 })
 
 const LoginForm = () => {
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [passwordInputType, setPasswordInputType] = useState<string>("password");
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -40,8 +44,25 @@ const LoginForm = () => {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        const loginData = await signIn("credentials", {
+            email: values.email,
+            password: values.password,
+            redirect: false,
+        })
+        console.log(loginData);
+
+        if (loginData?.error === null) {
+            router.refresh();
+            router.push("/home");
+        } else {
+            setIsLoading(false);
+            toast({
+                title: "Error",
+                description: "Something went wrong!",
+                variant: "destructive",
+            })
+        }
     }
 
     const showPassword = () => {
