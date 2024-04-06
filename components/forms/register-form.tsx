@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormField,
-    useFormField,
 } from "@/components/ui/form"
 import Link from "next/link"
 import { Eye } from "lucide-react"
@@ -63,6 +62,7 @@ const RegisterForm = () => {
         } catch (e) {
             setIsLoading(false);
             const error = e as AxiosError;
+            console.log(error);
         }
     }
 
@@ -87,14 +87,13 @@ const RegisterForm = () => {
 
     return (
         <div className="p-8 rounded-lg shadow min-w-[472px]">
-            <h1 className="font-bold text-xl mb-6">Create your account</h1>
+            <h1 className="font-bold text-xl mb-2">Create your account</h1>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
                     <FormField
                         control={form.control}
                         name="email"
-                        render={({ field }) => {
-                            const { error } = useFormField();
+                        render={({ field, fieldState }) => {
                             return (
                                 <Input
                                     label="Email"
@@ -105,8 +104,8 @@ const RegisterForm = () => {
                                     radius="sm"
                                     variant="bordered"
                                     classNames={inputStyles}
-                                    errorMessage={error?.message}
-                                    isInvalid={!!error?.message}
+                                    errorMessage={fieldState.error?.message}
+                                    isInvalid={!!fieldState.error?.message}
                                     {...field}
                                 />
                             )
@@ -115,8 +114,7 @@ const RegisterForm = () => {
                     <FormField
                         control={form.control}
                         name="password"
-                        render={({ field }) => {
-                            const { error } = useFormField();
+                        render={({ field, fieldState }) => {
                             return (
                                 <>
                                     <Input
@@ -130,8 +128,8 @@ const RegisterForm = () => {
                                         variant="bordered"
                                         endContent={<Eye onClick={() => showPassword()} opacity={0.6} strokeWidth={1.2} />}
                                         classNames={inputStyles}
-                                        errorMessage={error?.message}
-                                        isInvalid={!!error?.message}
+                                        errorMessage={fieldState.error?.message}
+                                        isInvalid={!!fieldState.error?.message}
                                         {...field} />
                                 </>
                             )
@@ -140,8 +138,7 @@ const RegisterForm = () => {
                     <FormField
                         control={form.control}
                         name="firstname"
-                        render={({ field }) => {
-                            const { error } = useFormField();
+                        render={({ field, fieldState }) => {
                             return (
                                 <Input
                                     label="First name"
@@ -151,8 +148,8 @@ const RegisterForm = () => {
                                     radius="sm"
                                     variant="bordered"
                                     classNames={inputStyles}
-                                    errorMessage={error?.message}
-                                    isInvalid={!!error?.message}
+                                    errorMessage={fieldState.error?.message}
+                                    isInvalid={!!fieldState.error?.message}
                                     {...field}
                                 />
                             )
@@ -161,8 +158,7 @@ const RegisterForm = () => {
                     <FormField
                         control={form.control}
                         name="lastname"
-                        render={({ field }) => {
-                            const { error } = useFormField();
+                        render={({ field, fieldState }) => {
                             return (
                                 <Input
                                     label="Last name"
@@ -172,8 +168,8 @@ const RegisterForm = () => {
                                     radius="sm"
                                     variant="bordered"
                                     classNames={inputStyles}
-                                    errorMessage={error?.message}
-                                    isInvalid={!!error?.message}
+                                    errorMessage={fieldState.error?.message}
+                                    isInvalid={!!fieldState.error?.message}
                                     {...field}
                                 />
                             )
@@ -182,8 +178,7 @@ const RegisterForm = () => {
                     <FormField
                         control={form.control}
                         name="username"
-                        render={({ field }) => {
-                            const { error } = useFormField();
+                        render={({ field, fieldState }) => {
                             return (
                                 <Input
                                     label="Username"
@@ -198,8 +193,8 @@ const RegisterForm = () => {
                                             "mt-10 mb-4"
                                         ]
                                     }}
-                                    errorMessage={error?.message}
-                                    isInvalid={!!error?.message}
+                                    errorMessage={fieldState.error?.message}
+                                    isInvalid={!!fieldState.error?.message}
                                     {...field}
                                 />
                             )

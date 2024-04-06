@@ -1,5 +1,4 @@
 import Navbar from "@/components/ui/navbar";
-import UserMenu from "@/components/ui/user-menu";
 
 export default function UserLayout({
     children,
@@ -9,7 +8,6 @@ export default function UserLayout({
     return (
         <>
             <Navbar />
-            <UserMenu />
             <main>
                 {children}
             </main>

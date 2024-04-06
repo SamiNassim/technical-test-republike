@@ -12,12 +12,13 @@ const UserCard = ({
     lastname
 }: UserCardProps) => {
 
-    const fullName = firstname + "" + lastname;
+    const fullName = firstname + " " + lastname;
+    const customFallback = firstname.substring(0, 1) + lastname.substring(0, 1);
 
     return (
         <div className="flex flex-col w-full">
             <div className="flex flex-row items-center gap-4 w-full">
-                <Avatar src="" size="md" name={fullName} classNames={{ base: "bg-[#f8f7ff]", name: "text-primary" }} showFallback />
+                <Avatar src="" size="md" name={customFallback} classNames={{ base: "bg-[#f8f7ff]", name: "text-primary" }} showFallback />
                 <div className="flex flex-col">
                     <p className="font-semibold">{fullName}</p>
                     <p className="text-primary text-sm">@{username}</p>

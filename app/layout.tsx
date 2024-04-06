@@ -4,7 +4,6 @@ import "./globals.css";
 import { UIProvider } from "@/providers/nextui-provider";
 import { Toaster } from "@/components/ui/toaster";
 
-// const inter = Inter({ subsets: ["latin"] });
 const myFont = localFont({
   src: 'TTFirsNeue.ttf',
   display: 'swap',

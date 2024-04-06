@@ -6,8 +6,7 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
     Form,
-    FormField,
-    useFormField,
+    FormField
 } from "@/components/ui/form"
 import Link from "next/link"
 import { Eye } from "lucide-react"
@@ -86,8 +85,7 @@ const LoginForm = () => {
                     <FormField
                         control={form.control}
                         name="email"
-                        render={({ field }) => {
-                            const { error } = useFormField();
+                        render={({ field, fieldState }) => {
                             return (
                                 <Input
                                     label="Email"
@@ -103,8 +101,8 @@ const LoginForm = () => {
                                             "mt-8"
                                         ]
                                     }}
-                                    errorMessage={error?.message}
-                                    isInvalid={!!error?.message}
+                                    errorMessage={fieldState.error?.message}
+                                    isInvalid={!!fieldState.error?.message}
                                     {...field}
                                 />
                             )
@@ -113,8 +111,7 @@ const LoginForm = () => {
                     <FormField
                         control={form.control}
                         name="password"
-                        render={({ field }) => {
-                            const { error } = useFormField();
+                        render={({ field, fieldState }) => {
                             return (
                                 <>
                                     <Input
@@ -125,21 +122,21 @@ const LoginForm = () => {
                                         defaultValue=""
                                         radius="sm"
                                         variant="bordered"
-                                        endContent={<Eye onClick={() => showPassword()} opacity={0.6} strokeWidth={1.2} />}
+                                        endContent={<Eye onClick={() => showPassword()} opacity={0.6} strokeWidth={1.2} className="cursor-pointer" />}
                                         classNames={{
                                             ...inputStyles,
                                             mainWrapper: [
                                                 "mt-10 mb-4"
                                             ]
                                         }}
-                                        errorMessage={error?.message}
-                                        isInvalid={!!error?.message}
+                                        errorMessage={fieldState.error?.message}
+                                        isInvalid={!!fieldState.error?.message}
                                         {...field} />
                                 </>
                             )
                         }}
                     />
-                    <Button type="submit" className="w-full">Create profile</Button>
+                    <Button type="submit" className="w-full">Login</Button>
                 </form>
             </Form>
             <div className="flex flex-row text-sm mt-5 gap-1">
