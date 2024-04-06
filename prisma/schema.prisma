@@ -17,6 +17,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  likedMessages    Message[] @relation(name: "like")
+  dislikedMessages Message[] @relation(name: "dislike")
+
+  messages Message[]
   accounts Account[]
 }
 
@@ -37,4 +41,19 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  userId    String
+  content   String   @db.Text
+  likes     Int      @default(0)
+  dislikes  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  likedByUsers    User[] @relation(name: "like")
+  dislikedByUsers User[] @relation(name: "dislike")
 }

@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={myFont.className}>
-        <main className="w-full min-h-screen">
+        <main>
           <UIProvider>
             {children}
             <Toaster />
