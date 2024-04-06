@@ -55,14 +55,13 @@ const MessageList = ({ session }: any) => {
         axios.get("/api/messages")
             .then((response: any) => {
                 setMessagesData(response.data.allMessages);
-                console.log(response.data);
             })
             .then(() => setIsLoading(false))
             .catch((e) => {
                 console.log(e)
             })
 
-    }, [form.getFieldState("content").isDirty])
+    }, [form.getFieldState("content").isDirty, onOpenChange])
 
     return (
         <>

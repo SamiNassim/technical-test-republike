@@ -73,8 +73,8 @@ const MessageCard = ({
                 {content}
             </CardBody>
             <CardFooter className="gap-6">
-                <ThumbsUp onClick={() => likeMessage(messageId)} color="#7B61FF" opacity={likeStatus === "liked" ? 1 : likeStatus === "disliked" ? 0.5 : 1} className="cursor-pointer" />
-                <ThumbsDown onClick={() => dislikeMessage(messageId)} color="#7B61FF" opacity={likeStatus === "disliked" ? 1 : likeStatus === "liked" ? 0.5 : 1} className="cursor-pointer" />
+                <ThumbsUp onClick={() => likeMessage(messageId)} color="#7B61FF" opacity={likeStatus === "liked" ? 1 : likeStatus === "disliked" ? 0.5 : 0.5} className="cursor-pointer" />
+                <ThumbsDown onClick={() => dislikeMessage(messageId)} color="#7B61FF" opacity={likeStatus === "disliked" ? 1 : likeStatus === "liked" ? 0.5 : 0.5} className="cursor-pointer" />
                 <div className="flex flex-row gap-1"><p className="text-[#6C727E]">Likes:</p><p className="text-primary">{likesCounter}</p></div>
                 <div className="flex flex-row gap-1"><p className="text-[#6C727E]">Dislikes:</p><p className="text-primary">{dislikesCounter}</p></div>
             </CardFooter>
