@@ -6,6 +6,19 @@ Je devais reproduire le design d'une maquette et ajouter les fonctionnalités co
 
 https://www.figma.com/file/V60Qs8UHxHzDZEO15h7UO8/Technical-Test-Republike?type=design&node-id=0-1&mode=design&t=ipUQ9my3s1qzZniI-0
 
+J'ai utilisé :</br>
+<i>I used :</i></br>
+
+- NextJS 14
+- Typescript
+- Tailwind CSS
+- Next-Auth
+- Prisma ORM
+- PostgreSQL
+- Docker
+- NextUI
+- ShadCN UI
+
 J'ai délibérément push les fichiers .env pour faciliter le lancement de l'application.</br>
 J'ai pris la liberté de modifier le texte du bouton "Create profile" sur la page de login par rapport à la maquette.</br>
 
@@ -27,7 +40,7 @@ Ensuite : </br>
 <i>Then :</i>
 
 ```` 
-git clone https://github.com/SamiNassim/republike.git
+git clone https://github.com/SamiNassim/technical-test-republike.git
 ````
 
 ```` 
