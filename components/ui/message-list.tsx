@@ -13,10 +13,7 @@ import UserCard from "./user-card";
 import { Form, FormField } from "./form";
 import { signOut } from "next-auth/react";
 import { Home } from "lucide-react";
-
-const formSchema = z.object({
-    content: z.string().min(1, "Your message is empty.").max(900, "Your message must have 900 max. characters."),
-})
+import { MessageSchema } from "@/schemas";
 
 const MessageList = ({ session }: any) => {
 
@@ -25,14 +22,14 @@ const MessageList = ({ session }: any) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof MessageSchema>>({
+        resolver: zodResolver(MessageSchema),
         defaultValues: {
             content: "",
         },
     })
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof MessageSchema>) {
         setIsLoading(true);
         try {
             await axios.post("/api/messages", { content: values.content, userId: session?.user.id });

@@ -3,44 +3,26 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
 import {
     Form,
     FormField,
 } from "@/components/ui/form"
 import Link from "next/link"
 import { Eye } from "lucide-react"
-import { Input } from "@nextui-org/react"
+import { Button, Input, Spinner } from "@nextui-org/react"
 import { useState } from "react"
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation"
 import { toast } from "../ui/use-toast"
-
-const passwordValidation = new RegExp(
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-);
-
-const formSchema = z.object({
-    email: z.string().min(1, "Please enter your email.").email("You must enter a valid email."),
-    password: z.string()
-        .min(1, "Please enter a password.")
-        .min(8, "Must have min. 8 characters")
-        .regex(passwordValidation, {
-            message: 'Your password is not valid',
-        }),
-    firstname: z.string().min(1, "Please enter your first name."),
-    lastname: z.string().min(1, "Please enter your last name."),
-    username: z.string().min(1, "Please enter an username").max(15, "Your username must have max. 15 characters")
-})
+import { RegisterSchema } from "@/schemas"
 
 const RegisterForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [passwordInputType, setPasswordInputType] = useState<string>("password");
-
     const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof RegisterSchema>>({
+        resolver: zodResolver(RegisterSchema),
         defaultValues: {
             email: "",
             password: "",
@@ -50,7 +32,7 @@ const RegisterForm = () => {
         },
     })
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof RegisterSchema>) {
         setIsLoading(true);
         try {
             await axios.post("/api/user", values);
@@ -62,7 +44,17 @@ const RegisterForm = () => {
         } catch (e) {
             setIsLoading(false);
             const error = e as AxiosError;
-            console.log(error);
+            interface responseMessageProps {
+                message: string,
+                user: null | any,
+            }
+            const responseMessage = error.response?.data as responseMessageProps;
+            toast({
+                title: "Error",
+                description: responseMessage.message,
+                variant: "destructive"
+            })
+            console.log(error.response?.data);
         }
     }
 
@@ -200,7 +192,7 @@ const RegisterForm = () => {
                             )
                         }}
                     />
-                    <Button type="submit" className="w-full">Create profile</Button>
+                    <Button type="submit" className="w-full" color="primary" radius="sm" isDisabled={isLoading}>{isLoading ? <Spinner color="default" size="sm" /> : "Create profile"}</Button>
                 </form>
             </Form>
             <div className="flex flex-row text-sm mt-5 gap-1">

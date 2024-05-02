@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { MessageSchema } from "@/schemas";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -13,7 +14,7 @@ export async function POST(req: Request) {
 
     try {
         const body = await req.json();
-        const { content } = body;
+        const { content } = MessageSchema.parse(body);
 
         const currentUser = await db.user.findUnique({
             where: {

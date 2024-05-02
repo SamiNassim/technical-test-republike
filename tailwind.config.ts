@@ -79,7 +79,15 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), nextui()],
+  plugins: [require("tailwindcss-animate"), nextui({
+    layout: {
+      radius: {
+        small: "0.25rem",
+        medium: "6px",
+        large: "8px",
+      }
+    }
+  })],
 } satisfies Config
 
 export default config

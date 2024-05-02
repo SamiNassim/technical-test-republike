@@ -1,29 +1,12 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
-import { z } from "zod"
-
-const passwordValidation = new RegExp(
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-);
-
-const userSchema = z.object({
-    email: z.string().min(1, "Please enter your email.").email("You must enter a valid email."),
-    password: z.string()
-        .min(1, "Please enter a password.")
-        .min(8, "Must have min. 8 characters")
-        .regex(passwordValidation, {
-            message: 'Your password is not valid',
-        }),
-    firstname: z.string().min(1, "Please enter your first name."),
-    lastname: z.string().min(1, "Please enter your last name."),
-    username: z.string().min(1, "Please enter an username").max(15, "Your username must have max. 15 characters")
-})
+import { RegisterSchema } from "@/schemas";
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { email, password, firstname, lastname, username } = userSchema.parse(body);
+        const { email, password, firstname, lastname, username } = RegisterSchema.parse(body);
 
         const existingUserByEmail = await db.user.findUnique({
             where: {

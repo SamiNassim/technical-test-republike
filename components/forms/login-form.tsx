@@ -3,53 +3,39 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
 import {
     Form,
     FormField
 } from "@/components/ui/form"
 import Link from "next/link"
 import { Eye } from "lucide-react"
-import { Input } from "@nextui-org/react"
+import { Button, Input, Spinner } from "@nextui-org/react"
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { toast } from "../ui/use-toast"
-
-const passwordValidation = new RegExp(
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-);
-
-const formSchema = z.object({
-    email: z.string().email({ message: "You must enter a valid email." }),
-    password: z.string()
-        .min(1, "Please enter a password.")
-        .min(8, "Must have min. 8 characters")
-        .regex(passwordValidation, {
-            message: 'Your password is not valid',
-        }),
-})
+import { LoginSchema } from "@/schemas"
 
 const LoginForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [passwordInputType, setPasswordInputType] = useState<string>("password");
     const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof LoginSchema>>({
+        resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
             password: ""
         },
     })
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof LoginSchema>) {
+        setIsLoading(true);
         const loginData = await signIn("credentials", {
             email: values.email,
             password: values.password,
             redirect: false,
         })
-        console.log(loginData);
 
         if (loginData?.error === null) {
             router.refresh();
@@ -136,7 +122,7 @@ const LoginForm = () => {
                             )
                         }}
                     />
-                    <Button type="submit" className="w-full">Login</Button>
+                    <Button type="submit" className="w-full" color="primary" radius="sm" isDisabled={isLoading}>{isLoading ? <Spinner color="default" size="sm" /> : "Login"}</Button>
                 </form>
             </Form>
             <div className="flex flex-row text-sm mt-5 gap-1">
